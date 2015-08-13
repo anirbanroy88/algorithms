@@ -6,6 +6,11 @@ import java.util.Locale;
 
 import com.anirban.skiing.exception.StupidInputException;
 
+/**
+ * The mountain range containing an array of peaks
+ * @author anirbanroy
+ *
+ */
 public class Mountain {
 
 	private Peak[][] peaksInTheMountain;
@@ -19,6 +24,11 @@ public class Mountain {
 		isBuilt = false;
 	}
 
+	/**
+	 * Filling data into the peak array from the Integer array
+	 * @param heightOfPeaks
+	 * @throws StupidInputException
+	 */
 	private void fillData(int[][] heightOfPeaks) throws StupidInputException  {
 		int columns = heightOfPeaks.length;
 		int rows = heightOfPeaks[0].length;
@@ -31,6 +41,10 @@ public class Mountain {
 		}
 	}
 
+	/**
+	 * Called by each peak when it is built completely.
+	 * @param path
+	 */
 	void setLongestSkiablePath(List<Peak> path) {
 		int pathSteepness = path.get(0).getPeakHeight() - path.get(path.size() - 1).getPeakHeight();
 		if (longestSkiablePath != null) {
@@ -44,21 +58,12 @@ public class Mountain {
 		longestSkiablePath = path;
 		steepNessOfLongestSkiablePath = pathSteepness;
 	}
-
-	public void printTheLovelyPath(){
-		if(!isBuilt){
-			System.out.println("The mountain is not built yet. Build it NOW......");
-		}else{
-			System.out.println("The length of the path is: "+longestSkiablePath.size());
-			System.out.println("The drop size is: "+steepNessOfLongestSkiablePath);
-			System.out.println("You need to send mail to: "+longestSkiablePath.size()+steepNessOfLongestSkiablePath+"@redmart.com");
-			for(Peak peak:longestSkiablePath){
-				System.out.print("("+peak.getX()+","+peak.getY()+") "+peak.getPeakHeight()+"\t");
-			}
-		}
-	}
-
-	public List<Peak> getNeighbouringPeaks(Peak peak) {
+	/**
+	 * Get the neighboring peaks which are lower in height
+	 * @param peak
+	 * @return
+	 */
+	public List<Peak> getNeighboringPeaks(Peak peak) {
 		List<Peak> neighbours = new ArrayList<Peak>();
 		int xCord = peak.getX();
 		int yCord = peak.getY();
@@ -81,6 +86,9 @@ public class Mountain {
 		return neighbours;
 	}
 
+	/**
+	 * Building the mountain by building each peak one by one
+	 */
 	public void build() {
 		int columns = this.peaksInTheMountain.length;
 		int rows = this.peaksInTheMountain[0].length;
@@ -92,6 +100,21 @@ public class Mountain {
 		this.isBuilt = true;
 	}
 
+	/**
+	 * Printing the calculated path
+	 */
+	public void printTheLovelyPath(){
+		if(!isBuilt){
+			System.out.println("The mountain is not built yet. Build it NOW......");
+		}else{
+			System.out.println("The length of the path is: "+longestSkiablePath.size());
+			System.out.println("The drop size is: "+steepNessOfLongestSkiablePath);
+			System.out.println("You need to send mail to: "+longestSkiablePath.size()+steepNessOfLongestSkiablePath+"@redmart.com");
+			for(Peak peak:longestSkiablePath){
+				System.out.print("("+peak.getX()+","+peak.getY()+") "+peak.getPeakHeight()+"\t");
+			}
+		}
+	}
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

@@ -90,7 +90,7 @@ public class Peak {
 		this.isTraversed = true;
 		if (!isBuilt) {
 			Mountain mountain = (Mountain) s;
-			List<Peak> neighbouringNodes = mountain.getNeighbouringPeaks(this);
+			List<Peak> neighbouringNodes = mountain.getNeighboringPeaks(this);
 			int currentLongestPathToTheBottom = 0;
 			int spreadOfNextPath = 0;
 			Peak nextNodeToBeVisited = null;
