@@ -17,6 +17,11 @@ public class MyBeautfulSkiingRange {
 		mountain.printTheLovelyPath();
 	}
 
+	private static int[][] constructArrayFromFile(boolean b) {
+		int[][] arr = {{6,8,4,6},{5,3,2,5},{0,2,7,7},{2,1,3,2}};
+		return arr;
+	}
+
 	/**
 	 * Construct the massive 1000 cross 1000 array by reading values from file
 	 * 

@@ -86,32 +86,38 @@ public class Peak {
 	 * @param Build the peak recursively
 	 * 
 	 */
-	public void build(Mountain s) {
+	public void build(Mountain mountain) {
 		this.isTraversed = true;
 		if (!isBuilt) {
-			Mountain mountain = (Mountain) s;
+			
 			List<Peak> neighbouringNodes = mountain.getNeighboringPeaks(this);
 			int currentLongestPathToTheBottom = 0;
-			int spreadOfNextPath = 0;
+			int lowestPeak = 0;
 			Peak nextNodeToBeVisited = null;
 			for (Peak neighbour : neighbouringNodes) {
+				// If the node is traversed, do not build it
 				if (!neighbour.isTraversed) {
 					neighbour.build(mountain);
 				}
 				if (neighbour.isBuilt()) {
+					int lowestPeakOfThisNeighbour = neighbour.pathToTheLowestReachablePoint.get(neighbour.pathToTheLowestReachablePoint.size()-1).peakHeight;
+					// Pick the neighbour with the longest path length
 					if (neighbour.pathLenthToTheLowestReachablePeak() > currentLongestPathToTheBottom) {
 						nextNodeToBeVisited = neighbour;
 						currentLongestPathToTheBottom = neighbour.pathLenthToTheLowestReachablePeak();
-						spreadOfNextPath = neighbour.getSteepness();
-					} else if (neighbour.getSteepness() == currentLongestPathToTheBottom) {
-						if (spreadOfNextPath < neighbour.getSteepness()) {
+						lowestPeak = lowestPeakOfThisNeighbour;
+					// If there are two neighbours with similar path lengths, then pick the neighbour with the lower lowest peak in its path
+					} else if (neighbour.pathLenthToTheLowestReachablePeak() == currentLongestPathToTheBottom) {
+						if (lowestPeakOfThisNeighbour < lowestPeak) {
 							nextNodeToBeVisited = neighbour;
-							spreadOfNextPath = neighbour.getSteepness();
+							lowestPeak = lowestPeakOfThisNeighbour;
 						}
 					}
 				}
 			}
 
+			// If there is a next node to visit, add its path to my path
+			// In case of lowest nodes in a path, there will be no next node to visit.
 			if (nextNodeToBeVisited != null) {
 				this.pathToTheLowestReachablePoint.addAll(nextNodeToBeVisited.pathToTheLowestReachablePoint);
 				mountain.setLongestSkiablePath(pathToTheLowestReachablePoint);
